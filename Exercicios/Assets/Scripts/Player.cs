@@ -1,14 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Timers;
 
 public class Player : MonoBehaviour
 {
-    public float speed = -2f;
-
-    bool x2;
-    bool x3;
-    bool x4;
+    public float speed = 2f;
+    double hp;
 
     [SerializeField]
     Transform cameraT;
@@ -22,7 +20,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        TimersManager.SetLoopableTimer(this, 5f, hpRegen);
     }
 
     // Update is called once per frame
@@ -42,5 +40,10 @@ public class Player : MonoBehaviour
         Vector3 moveAmount = velocity * Time.deltaTime;
 
         transform.Translate(moveAmount);
+    }
+
+    void hpRegen()
+    {
+        hp += 50;
     }
 }
