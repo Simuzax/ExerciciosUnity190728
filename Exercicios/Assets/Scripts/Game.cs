@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Timers;
+using TMPro;
 
 public class Game : MonoBehaviour
 {
     public GameObject inimigoPrefab;
+    public TextMeshProUGUI textoScore;
 
+    [SerializeField]
+    TimersManager timeManager;
+
+    Color32 cor = new Color32(217, 111, 17, 255);
     double pontuação;
     float enemyTimeRate = 2f;
     float scoreTimeRate = 0.5f;
@@ -36,6 +42,11 @@ public class Game : MonoBehaviour
         time += scoreTimeRate;
     }
 
+    void changeColor()
+    {
+        cor = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 255);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +55,8 @@ public class Game : MonoBehaviour
         //----------
         TimersManager.SetTimer(this,scoreTimer);
         TimersManager.ClearTimer(EmptyTimer);
-        TimersManager.SetTimer(this, scoreTimer);
+        //----------
+        TimersManager.SetLoopableTimer(this, 0.15f, changeColor);
 
         lastDamageTakenTime = Time.time;
     }
@@ -53,8 +65,19 @@ public class Game : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {   
+        textoScore.text = "SCORE: " + pontuação;
+        textoScore.color = cor;
+
         if (Input.GetKeyDown(KeyCode.R))
+        {
+            TimersManager.ClearTimer(spawnInimigo);
+            TimersManager.ClearTimer(scoreRate);
+            TimersManager.ClearTimer(changeColor);
+
+            Destroy(timeManager);
+
             SceneManager.LoadScene(0);
+        }
     }
 }

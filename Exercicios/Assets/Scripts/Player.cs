@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Timers;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
+    public TextMeshProUGUI textoHp;
+
     public float speed = 2f;
     double hp;
 
@@ -26,6 +29,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        textoHp.text = "HP: " + hp;
+
         walk();
     }
 
