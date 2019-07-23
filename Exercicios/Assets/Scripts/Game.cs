@@ -7,7 +7,13 @@ using TMPro;
 
 public class Game : MonoBehaviour
 {
-    public GameObject inimigoPrefab;
+    private GameObject inimigoPrefab;
+
+    public GameObject inimigoRap;
+    public GameObject inimigoLent;
+    public GameObject inimigoZigzag;
+    public GameObject inimigoRanged;
+
     public TextMeshProUGUI textoScore;
 
     [SerializeField]
@@ -50,6 +56,8 @@ public class Game : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        inimigoPrefab = inimigoRanged;
+
         TimersManager.SetLoopableTimer(this, enemyTimeRate, spawnInimigo);
         TimersManager.SetLoopableTimer(this, scoreTimeRate, scoreRate);
         //----------

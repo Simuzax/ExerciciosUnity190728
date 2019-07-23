@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
     public TextMeshProUGUI textoHp;
 
-    public float speed = 2f;
+    public float speed = 50f;
     double hp;
 
     [SerializeField]
