@@ -12,13 +12,10 @@ public class Player : MonoBehaviour
     double hp;
 
     [SerializeField]
-    Transform cameraT;
+    bool isPlayerOne;
 
     [SerializeField]
     CharacterController charController;
-
-    [SerializeField]
-    Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -31,10 +28,10 @@ public class Player : MonoBehaviour
     {
         textoHp.text = "HP: " + hp;
 
-        walk();
+        walkP1();
     }
 
-    void walk()
+    void walkP1()
     {
         Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
 

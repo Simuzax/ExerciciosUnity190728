@@ -56,7 +56,7 @@ public class Game : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        inimigoPrefab = inimigoRanged;
+        inimigoPrefab = inimigoZigzag;
 
         TimersManager.SetLoopableTimer(this, enemyTimeRate, spawnInimigo);
         TimersManager.SetLoopableTimer(this, scoreTimeRate, scoreRate);
@@ -74,7 +74,7 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-        textoScore.text = "SCORE: " + pontuação;
+        textoScore.text = "SCORE P1: " + pontuação;
         textoScore.color = cor;
 
         if (Input.GetKeyDown(KeyCode.R))
