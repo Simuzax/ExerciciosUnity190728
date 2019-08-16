@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public GameObject target;
+    private GameObject target;
     float speed = 5f;
     Vector3 direction;
 
@@ -16,7 +16,8 @@ public class Bullet : MonoBehaviour
     {
         timerSelfDestruct = Time.time;
 
-        target = GameObject.FindGameObjectWithTag("Player");
+        GameObject[] alvos = GameObject.FindGameObjectsWithTag("Player");   
+        target = alvos[Random.Range(0, alvos.Length)];
 
         Vector3 input = target.transform.position - transform.position;
 

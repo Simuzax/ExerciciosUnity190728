@@ -7,22 +7,21 @@ using TMPro;
 
 public class Game : MonoBehaviour
 {
-    private GameObject inimigoPrefab;
+    public GameObject powerUp;
 
-    public GameObject inimigoRap;
-    public GameObject inimigoLent;
-    public GameObject inimigoZigzag;
-    public GameObject inimigoRanged;
+    public GameObject[] inimigos;
 
     public TextMeshProUGUI textoScore;
 
     [SerializeField]
     TimersManager timeManager;
 
-    Color32 cor = new Color32(217, 111, 17, 255);
     double pontuação;
+
+    float powerUpTimeRate = 10f;
     float enemyTimeRate = 2f;
     float scoreTimeRate = 0.5f;
+
     float time;
     Timer scoreTimer = new Timer(Timer.INFINITE, Timer.INFINITE, EmptyTimer);
     float lastDamageTakenTime;
@@ -34,7 +33,12 @@ public class Game : MonoBehaviour
 
     void spawnInimigo()
     {
-        GameObject go = Instantiate(inimigoPrefab, getRandomSpawnPosition(), Quaternion.identity);
+        GameObject go = Instantiate(inimigos[Random.Range(0, inimigos.Length)], getRandomSpawnPosition(), Quaternion.identity);
+    }
+
+    void spawnPowerUp()
+    {
+        Instantiate(powerUp, new Vector3(Random.Range(0, 10), 1, 0), Quaternion.identity);
     }
 
     void scoreRate()
@@ -48,23 +52,15 @@ public class Game : MonoBehaviour
         time += scoreTimeRate;
     }
 
-    void changeColor()
-    {
-        cor = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 255);
-    }
-
     // Start is called before the first frame update
     void Start()
     {
-        inimigoPrefab = inimigoZigzag;
-
         TimersManager.SetLoopableTimer(this, enemyTimeRate, spawnInimigo);
         TimersManager.SetLoopableTimer(this, scoreTimeRate, scoreRate);
+        TimersManager.SetLoopableTimer(this, powerUpTimeRate, spawnPowerUp);
         //----------
         TimersManager.SetTimer(this,scoreTimer);
         TimersManager.ClearTimer(EmptyTimer);
-        //----------
-        TimersManager.SetLoopableTimer(this, 0.15f, changeColor);
 
         lastDamageTakenTime = Time.time;
     }
@@ -74,14 +70,13 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-        textoScore.text = "SCORE P1: " + pontuação;
-        textoScore.color = cor;
+        textoScore.text = "SCORE: " + pontuação;
 
         if (Input.GetKeyDown(KeyCode.R))
         {
             TimersManager.ClearTimer(spawnInimigo);
             TimersManager.ClearTimer(scoreRate);
-            TimersManager.ClearTimer(changeColor);
+            TimersManager.ClearTimer(spawnPowerUp);
 
             Destroy(timeManager);
 
