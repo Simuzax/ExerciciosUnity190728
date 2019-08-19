@@ -8,10 +8,15 @@ public class InimigoRanged : MonoBehaviour
     public GameObject player;
     public GameObject bullet;
 
+    float timerSelfDestruct = 0;
+    float timerSelfDestruct_Max = 5;
+
     // Start is called before the first frame update
     void Start()
     {
-        if(!player || player == null)
+        timerSelfDestruct = Time.time;
+
+        if (!player || player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player");
         }
@@ -23,6 +28,13 @@ public class InimigoRanged : MonoBehaviour
     void Update()
     {
         transform.LookAt(player.transform);
+
+        if (Time.time >= timerSelfDestruct + timerSelfDestruct_Max)
+        {
+            Destroy(gameObject);
+
+            timerSelfDestruct = Time.time;
+        }
     }
 
 

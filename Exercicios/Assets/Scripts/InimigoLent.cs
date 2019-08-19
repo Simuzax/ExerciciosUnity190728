@@ -6,11 +6,16 @@ public class InimigoLent : MonoBehaviour
 {
     public GameObject player;
 
-    float speed = 0.1f;
+    float speed = 0.05f;
+
+    float timerSelfDestruct = 0;
+    float timerSelfDestruct_Max = 5;
 
     // Start is called before the first frame update
     void Start()
     {
+        timerSelfDestruct = Time.time;
+
         transform.LookAt(player.transform);
     }
 
@@ -18,5 +23,12 @@ public class InimigoLent : MonoBehaviour
     void Update()
     {
         transform.position += transform.forward * speed;
+
+        if (Time.time >= timerSelfDestruct + timerSelfDestruct_Max)
+        {
+            Destroy(gameObject);
+
+            timerSelfDestruct = Time.time;
+        }
     }
 }

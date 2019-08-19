@@ -7,6 +7,12 @@ using TMPro;
 
 public class Game : MonoBehaviour
 {
+    public bool isGameOver;
+    public bool winnerIsPlayerOne;
+
+    public GameObject panelGameOver;
+    public TextMeshProUGUI whoWon;
+
     public GameObject powerUp;
 
     public GameObject[] inimigos;
@@ -28,7 +34,7 @@ public class Game : MonoBehaviour
 
     Vector3 getRandomSpawnPosition()
     {
-        return new Vector3(Random.Range(0, 10), 1, Random.Range(0, 10));
+        return new Vector3(Random.Range(0, 10), 1, 8);
     }
 
     void spawnInimigo()
@@ -38,7 +44,7 @@ public class Game : MonoBehaviour
 
     void spawnPowerUp()
     {
-        Instantiate(powerUp, new Vector3(Random.Range(0, 10), 1, 0), Quaternion.identity);
+        Instantiate(powerUp, new Vector3(Random.Range(-10, 10), 1, 0), Quaternion.identity);
     }
 
     void scoreRate()
@@ -82,5 +88,33 @@ public class Game : MonoBehaviour
 
             SceneManager.LoadScene(0);
         }
+
+        if (isGameOver)
+        {
+            panelGameOver.SetActive(true);
+
+            if (winnerIsPlayerOne)
+            {
+                whoWon.text = "PLAYER ONE WON!";
+            }
+            else
+            {
+                whoWon.text = "PLAYER TWO WON!";
+            }
+        }
+    }
+
+    public void retryGame()
+    {
+        SceneManager.LoadScene("Exercicio2");
+    }
+
+    public void exitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

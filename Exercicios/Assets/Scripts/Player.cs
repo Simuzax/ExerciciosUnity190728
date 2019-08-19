@@ -6,13 +6,14 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
+    public Game gameRef;
+
     public TextMeshProUGUI textoHp;
 
-    [SerializeField]
     float speed = 5f;
+    float speedInicial = 5f;
 
-    [SerializeField]
-    float powerUpDuration = 5f;
+    float powerUpDuration = 3f;
     double hp = 10;
 
     Color32 cor, corInicial;
@@ -32,9 +33,7 @@ public class Player : MonoBehaviour
 
         powerUp = new Timer(0.1f, (uint)(powerUpDuration / 0.1), absolutelyNotSuperStar);
       
-
         TimersManager.SetLoopableTimer(this, 5f, hpRegen);
-        
     }
 
     // Update is called once per frame
@@ -44,15 +43,27 @@ public class Player : MonoBehaviour
 
         walk();
 
-        if (powerUp == null)
+        if (powerUp.RemainingLoopsCount() <= 0)
         {
-            if (powerUp.RemainingLoopsCount() <= 0)
-            {
-                corInicial = GetComponent<Renderer>().material.color;
-                TimersManager.ClearTimer(absolutelyNotSuperStar);
-               
+            TimersManager.ClearTimer(absolutelyNotSuperStar);
+            GetComponent<Renderer>().material.color = corInicial;
+            speed = speedInicial;
+        }
 
+        if (hp <= 0)
+        {
+            gameRef.isGameOver = true;
+
+            if (isPlayerOne)
+            {
+                gameRef.winnerIsPlayerOne = false;
             }
+            else
+            {
+                gameRef.winnerIsPlayerOne = true;
+            }
+
+            Destroy(gameObject);
         }
     }
 
@@ -74,7 +85,7 @@ public class Player : MonoBehaviour
 
     void hpRegen()
     {
-        hp += 10;
+        hp += 5;
     }
 
     void absolutelyNotSuperStar()
