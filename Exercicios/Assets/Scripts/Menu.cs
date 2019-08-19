@@ -9,6 +9,13 @@ public class Menu : MonoBehaviour
     public TextMeshProUGUI playerQuantityIndicator;
     public int playerQuantity = 0;
 
+    public int[] time1, time2;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +44,8 @@ public class Menu : MonoBehaviour
 
     public void startGame()
     {
+        PlayerPrefs.SetInt("playerQuantity", playerQuantity);
+        
         SceneManager.LoadScene("Exercicio3");
     }
 

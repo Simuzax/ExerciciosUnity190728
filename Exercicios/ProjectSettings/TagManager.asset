@@ -7,6 +7,8 @@ TagManager:
   - Inimigo
   - Bullet
   - PowerUp
+  - Game
+  - Menu
   layers:
   - Default
   - TransparentFX

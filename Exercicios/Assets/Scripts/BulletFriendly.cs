@@ -5,6 +5,8 @@ using UnityEngine;
 public class BulletFriendly : MonoBehaviour
 {
     float speed = 5f;
+
+    [SerializeField]
     Vector3 direction = new Vector3(0, 0, 1);
 
     float timerSelfDestruct = 0;
@@ -20,13 +22,21 @@ public class BulletFriendly : MonoBehaviour
     void Update()
     {
         transform.Translate(direction * speed * Time.deltaTime,Space.World);
-
+    
         if (Time.time >= timerSelfDestruct + timerSelfDestruct_Max)
         {
             Destroy(gameObject);
             
             timerSelfDestruct = Time.time;
         }
+    }
+
+    public void setDirection(Vector3 dir)
+    {
+        direction = dir;
+
+        Quaternion rotation = Quaternion.LookRotation(direction.normalized, Vector3.up);
+        transform.rotation = rotation;
     }
 
     private void OnTriggerEnter(Collider other)

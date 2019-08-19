@@ -4,11 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Timers;
 using TMPro;
+using System.Linq;
 
 public class Game : MonoBehaviour
 {
+    Menu menu;
+
     public bool isGameOver;
-    public bool winnerIsPlayerOne;
+    public int winner;
 
     public GameObject panelGameOver;
     public TextMeshProUGUI whoWon;
@@ -16,6 +19,7 @@ public class Game : MonoBehaviour
     public GameObject powerUp;
 
     public GameObject[] inimigos;
+    public GameObject[] players;
 
     public TextMeshProUGUI textoScore;
 
@@ -44,7 +48,7 @@ public class Game : MonoBehaviour
 
     void spawnPowerUp()
     {
-        Instantiate(powerUp, new Vector3(Random.Range(-10, 10), 1, 0), Quaternion.identity);
+        Instantiate(powerUp, new Vector3(Random.Range(-10, 10), (float)0.5, 0), Quaternion.identity);
     }
 
     void scoreRate()
@@ -61,6 +65,18 @@ public class Game : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        menu = GameObject.FindGameObjectWithTag("Menu").GetComponent<Menu>();
+        menu.gameObject.SetActive(false);
+
+        for (int i = 0; i < PlayerPrefs.GetInt("playerQuantity"); i++)
+        {
+            if (i >= players.Length) break;
+
+            Player p = Instantiate(players[i], new Vector3(2 * i, (float)0.5, 0), Quaternion.identity).GetComponent<Player>();
+
+            p.id = i + 1;
+        }
+
         TimersManager.SetLoopableTimer(this, enemyTimeRate, spawnInimigo);
         TimersManager.SetLoopableTimer(this, scoreTimeRate, scoreRate);
         TimersManager.SetLoopableTimer(this, powerUpTimeRate, spawnPowerUp);
@@ -92,15 +108,45 @@ public class Game : MonoBehaviour
         if (isGameOver)
         {
             panelGameOver.SetActive(true);
+        }
+    }
 
-            if (winnerIsPlayerOne)
-            {
+    public void checkWinner()
+    {
+        GameObject[] time1, time2;
+
+        time1 = System.Array.FindAll(players, x => x.GetComponent<Player>().time == 1);
+        time2 = System.Array.FindAll(players, x => x.GetComponent<Player>().time == 2);
+
+        if (System.Array.FindAll(time1, x => x.GetComponent<Player>().Hp <= 0).Length == time1.Length)
+        {
+            winner = 6;
+        }
+        else if (System.Array.FindAll(time2, x => x.GetComponent<Player>().Hp <= 0).Length == time2.Length)
+        {
+            winner = 5;
+        }
+
+        switch (winner)
+        {
+            case 1:
                 whoWon.text = "PLAYER ONE WON!";
-            }
-            else
-            {
+                break;
+            case 2:
                 whoWon.text = "PLAYER TWO WON!";
-            }
+                break;
+            case 3:
+                whoWon.text = "PLAYER THREE WON!";
+                break;
+            case 4:
+                whoWon.text = "PLAYER FOUR WON!";
+                break;
+            case 5:
+                whoWon.text = "TEAM ONE WON!";
+                break;
+            case 6:
+                whoWon.text = "TEAM TWO WON!";
+                break;
         }
     }
 

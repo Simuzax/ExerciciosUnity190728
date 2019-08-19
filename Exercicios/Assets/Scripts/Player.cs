@@ -14,12 +14,30 @@ public class Player : MonoBehaviour
     float speedInicial = 5f;
 
     float powerUpDuration = 3f;
-    double hp = 10;
 
     Color32 cor, corInicial;
 
-    [SerializeField]
-    bool isPlayerOne;
+    private double hp_;
+    public double Hp
+    {
+        get
+        {
+            return hp_;
+        }
+        set
+        {
+            hp_ = value;
+            if (Hp <= 0)
+            {
+                hp_ = 0;
+                gameRef.checkWinner();
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    public int id;
+    public int time;
 
     [SerializeField]
     CharacterController charController;
@@ -28,9 +46,14 @@ public class Player : MonoBehaviour
 
     public GameObject bullet;
 
+    Vector3 input;
+
     // Start is called before the first frame update
     void Start()
     {
+        textoHp = GameObject.Find("HpP" + id).GetComponent<TextMeshProUGUI>();
+        gameRef = GameObject.FindGameObjectWithTag("Game").GetComponent<Game>();
+
         corInicial = GetComponent<Renderer>().material.color;
 
         powerUp = new Timer(0.1f, (uint)(powerUpDuration / 0.1), absolutelyNotSuperStar);
@@ -41,7 +64,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        textoHp.text = "HP: " + hp;
+        textoHp.text = "HP: " + Hp;
 
         walk();
 
@@ -52,44 +75,52 @@ public class Player : MonoBehaviour
             speed = speedInicial;
         }
 
-        if (hp <= 0)
+        switch (id)
         {
-            gameRef.isGameOver = true;
-
-            if (isPlayerOne)
-            {
-                gameRef.winnerIsPlayerOne = false;
-            }
-            else
-            {
-                gameRef.winnerIsPlayerOne = true;
-            }
-
-            Destroy(gameObject);
-        }
-
-        if (isPlayerOne)
-        {
-            if (Input.GetKeyDown(KeyCode.KeypadEnter))
-            {
-                shootAt();
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                shootAt();
-            }
+            case 1:
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    shootAt();
+                }
+                break;
+            case 2:
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    shootAt();
+                }
+                break;
+            case 3:
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    shootAt();
+                }
+                break;
+            case 4:
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    shootAt();
+                }
+                break;
         }
     }
 
     void walk()
     {
-        Vector3 input;
-
-        if (isPlayerOne) input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-        else input = new Vector3(Input.GetAxisRaw("HorizontalTwo"), 0, Input.GetAxisRaw("VerticalTwo"));
+        switch (id)
+        {
+            case 1:
+                input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+                break;
+            case 2:
+                input = new Vector3(Input.GetAxisRaw("HorizontalTwo"), 0, Input.GetAxisRaw("VerticalTwo"));
+                break;
+            case 3:
+                input = new Vector3(Input.GetAxisRaw("HorizontalThree"), 0, Input.GetAxisRaw("VerticalThree"));
+                break;
+            case 4:
+                input = new Vector3(Input.GetAxisRaw("HorizontalFour"), 0, Input.GetAxisRaw("VerticalFour"));
+                break;
+        }
 
         Vector3 direction = input.normalized;
 
@@ -102,7 +133,7 @@ public class Player : MonoBehaviour
 
     void hpRegen()
     {
-        hp += 5;
+        Hp += 5;
     }
 
     void absolutelyNotSuperStar()
@@ -114,16 +145,18 @@ public class Player : MonoBehaviour
 
     void shootAt()
     {
-        Vector3 instantiatePosition = transform.position + new Vector3(0, 0, 1);
+        Vector3 instantiatePosition = transform.position + input;
 
         GameObject go = Instantiate(bullet, instantiatePosition, Quaternion.identity);
+
+        go.GetComponent<BulletFriendly>().setDirection(input);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("Bullet") || other.transform.CompareTag("Inimigo"))
         {
-            hp -= 5;
+            Hp -= 5;
             Destroy(other.gameObject);
         }
 
