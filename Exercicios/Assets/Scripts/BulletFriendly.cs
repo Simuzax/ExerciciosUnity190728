@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class BulletFriendly : MonoBehaviour
 {
-    private GameObject target;
     float speed = 5f;
-    Vector3 direction;
+    Vector3 direction = new Vector3(0, 0, 1);
 
     float timerSelfDestruct = 0;
     float timerSelfDestruct_Max = 5;
@@ -15,15 +14,6 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         timerSelfDestruct = Time.time;
-
-        GameObject[] alvos = GameObject.FindGameObjectsWithTag("Player");   
-        target = alvos[Random.Range(0, alvos.Length)];
-
-        Vector3 input = target.transform.position - transform.position;
-
-        direction = input.normalized;
-        
-        transform.LookAt(target.transform);
     }
 
     // Update is called once per frame
@@ -33,10 +23,8 @@ public class Bullet : MonoBehaviour
 
         if (Time.time >= timerSelfDestruct + timerSelfDestruct_Max)
         {
-            if (Vector3.Distance(transform.position, target.transform.position) >= 30f)
-            {
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
+            
             timerSelfDestruct = Time.time;
         }
     }

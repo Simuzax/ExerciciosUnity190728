@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
 
     Timer powerUp;
 
+    public GameObject bullet;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,14 +67,29 @@ public class Player : MonoBehaviour
 
             Destroy(gameObject);
         }
+
+        if (isPlayerOne)
+        {
+            if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                shootAt();
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                shootAt();
+            }
+        }
     }
 
     void walk()
     {
         Vector3 input;
 
-        if (isPlayerOne) input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
-        else input = new Vector3(Input.GetAxisRaw("HorizontalTwo"), 0, 0);
+        if (isPlayerOne) input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        else input = new Vector3(Input.GetAxisRaw("HorizontalTwo"), 0, Input.GetAxisRaw("VerticalTwo"));
 
         Vector3 direction = input.normalized;
 
@@ -93,6 +110,13 @@ public class Player : MonoBehaviour
         speed = 10;
         cor = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 255);
         GetComponent<Renderer>().material.color = cor;
+    }
+
+    void shootAt()
+    {
+        Vector3 instantiatePosition = transform.position + new Vector3(0, 0, 1);
+
+        GameObject go = Instantiate(bullet, instantiatePosition, Quaternion.identity);
     }
 
     private void OnTriggerEnter(Collider other)

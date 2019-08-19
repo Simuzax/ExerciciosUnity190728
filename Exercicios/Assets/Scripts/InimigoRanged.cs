@@ -37,7 +37,6 @@ public class InimigoRanged : MonoBehaviour
         }
     }
 
-
     void shootAt()
     {
         Vector3 instantiatePosition = transform.position + new Vector3(0, 0, 1);
