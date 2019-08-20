@@ -124,9 +124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a4120064d012ac479e8dacd6ddc5e60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletSound: {fileID: 8300000, guid: 6791f095869662b448f80be55cbea538, type: 3}
   gameRef: {fileID: 0}
   textoHp: {fileID: 0}
-  isPlayerOne: 0
   id: 0
+  time: 0
   charController: {fileID: -4944698795926892089}
   bullet: {fileID: 7314017996431343761, guid: 2dfd2293305561c4fa7ebf6ef57eaf80, type: 3}

@@ -6,6 +6,8 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
+    public Sfx sfxRef;
+
     public Game gameRef;
 
     public TextMeshProUGUI textoHp;
@@ -56,7 +58,10 @@ public class Player : MonoBehaviour
     void Start()
     {
         textoHp = GameObject.Find("HpP" + id).GetComponent<TextMeshProUGUI>();
+
         gameRef = GameObject.FindGameObjectWithTag("Game").GetComponent<Game>();
+
+        sfxRef = GameObject.Find("SFX").GetComponent<Sfx>();
 
         corInicial = GetComponent<Renderer>().material.color;
 
@@ -149,6 +154,8 @@ public class Player : MonoBehaviour
 
     void shootAt()
     {
+        sfxRef.playSound();
+
         Vector3 instantiatePosition = transform.position + input;
 
         GameObject go = Instantiate(bullet, instantiatePosition, Quaternion.identity);
