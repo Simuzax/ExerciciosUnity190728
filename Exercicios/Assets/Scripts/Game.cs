@@ -19,7 +19,8 @@ public class Game : MonoBehaviour
     public GameObject powerUp;
 
     public GameObject[] inimigos;
-    public GameObject[] players;
+    public GameObject[] playersPrefabs;
+    public Player[] players;
 
     public TextMeshProUGUI textoScore;
 
@@ -68,12 +69,14 @@ public class Game : MonoBehaviour
         menu = GameObject.FindGameObjectWithTag("Menu").GetComponent<Menu>();
         menu.gameObject.SetActive(false);
 
+        players = new Player[PlayerPrefs.GetInt("playerQuantity")];
+
         for (int i = 0; i < PlayerPrefs.GetInt("playerQuantity"); i++)
         {
-            if (i >= players.Length) break;
+            if (i >= playersPrefabs.Length) break;
 
-            Player p = Instantiate(players[i], new Vector3(2 * i, (float)0.5, 0), Quaternion.identity).GetComponent<Player>();
-
+            Player p = Instantiate(playersPrefabs[i], new Vector3(2 * i, (float)0.5, 0), Quaternion.identity).GetComponent<Player>();
+            
             p.id = i + 1;
 
             if (PlayerPrefs.GetInt("peopleInTeamOne") > 0)
@@ -82,6 +85,8 @@ public class Game : MonoBehaviour
                 PlayerPrefs.SetInt("peopleInTeamOne", PlayerPrefs.GetInt("peopleInTeamOne") - 1);
             }
             else p.time = 2;
+
+            players[i] = p;
         }
 
         TimersManager.SetLoopableTimer(this, enemyTimeRate, spawnInimigo);
@@ -120,17 +125,18 @@ public class Game : MonoBehaviour
 
     public void checkWinner()
     {
-        GameObject[] time1, time2;
+        Player[] time1, time2;
 
-        time1 = System.Array.FindAll(players, x => x.GetComponent<Player>().time == 1);
-        time2 = System.Array.FindAll(players, x => x.GetComponent<Player>().time == 2);
-
-        if (System.Array.FindAll(time1, x => x.GetComponent<Player>().Hp <= 0).Length == time1.Length)
+        time1 = System.Array.FindAll(players, x => x.time == 1);
+        
+        time2 = System.Array.FindAll(players, x => x.time == 2);
+        
+        if (System.Array.FindAll(time1, x => x.Hp <= 0).Length == time1.Length)
         {
             winner = 6;
             isGameOver = true;
         }
-        else if (System.Array.FindAll(time2, x => x.GetComponent<Player>().Hp <= 0).Length == time2.Length)
+        else if (System.Array.FindAll(time2, x => x.Hp <= 0).Length == time2.Length)
         {
             winner = 5;
             isGameOver = true;

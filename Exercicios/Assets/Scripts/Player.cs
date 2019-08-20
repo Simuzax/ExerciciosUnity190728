@@ -42,7 +42,9 @@ public class Player : MonoBehaviour
         }
     }
 
+    [SerializeField]
     public int id;
+    [SerializeField]
     public int time;
 
     [SerializeField]

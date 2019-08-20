@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657683, g: 0.49641216, b: 0.5748184, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657642, g: 0.49641162, b: 0.5748184, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2451,11 +2451,16 @@ MonoBehaviour:
   - {fileID: 2395800247229409459, guid: 160f475eaf98be2489f53dd7355ba727, type: 3}
   - {fileID: 5537605092058881337, guid: dd645405077c0714698b48a67ab1642d, type: 3}
   - {fileID: 6078287975723962542, guid: 2eaf2a44b1fbc504ebe67508a6bf3c65, type: 3}
-  players:
+  playersPrefabs:
   - {fileID: 2323379976564295732, guid: 8f9059573b9434a4092e6c8f039c0231, type: 3}
   - {fileID: 1208298338571555936, guid: 1230a4b1569ca6941b1e1040c20ebfeb, type: 3}
   - {fileID: 3650231744270429563, guid: e7032749317335246b0e8ff6913be001, type: 3}
   - {fileID: 8486925613918638463, guid: 951fd3b66d4b7464bb8304489e96e48d, type: 3}
+  players:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   textoScore: {fileID: 2019548796}
   timeManager: {fileID: 806596529}
 --- !u!82 &1947277904
