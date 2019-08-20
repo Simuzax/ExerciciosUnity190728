@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 5745146313085205526}
   m_Layer: 0
   m_Name: BulletFriendly
-  m_TagString: Bullet
+  m_TagString: BulletFriendly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -198,3 +198,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c96162bb58ece248a385d2b0380c2ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  direction: {x: 0, y: 0, z: 1}

@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
 
     Color32 cor, corInicial;
 
-    private double hp_;
+    private double hp_ = 10;
     public double Hp
     {
         get
@@ -30,7 +30,11 @@ public class Player : MonoBehaviour
             if (Hp <= 0)
             {
                 hp_ = 0;
+
+                textoHp.text = "HP T" + time + ": " + Hp;
+
                 gameRef.checkWinner();
+
                 Destroy(gameObject);
             }
         }
@@ -64,7 +68,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        textoHp.text = "HP: " + Hp;
+        textoHp.text = "HP T" + time + ": " + Hp;
 
         walk();
 
@@ -78,7 +82,7 @@ public class Player : MonoBehaviour
         switch (id)
         {
             case 1:
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (Input.GetKeyDown(KeyCode.KeypadEnter))
                 {
                     shootAt();
                 }
@@ -90,7 +94,7 @@ public class Player : MonoBehaviour
                 }
                 break;
             case 3:
-                if (Input.GetKeyDown(KeyCode.F))
+                if (Input.GetKeyDown(KeyCode.Return))
                 {
                     shootAt();
                 }

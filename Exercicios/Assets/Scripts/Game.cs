@@ -75,6 +75,13 @@ public class Game : MonoBehaviour
             Player p = Instantiate(players[i], new Vector3(2 * i, (float)0.5, 0), Quaternion.identity).GetComponent<Player>();
 
             p.id = i + 1;
+
+            if (PlayerPrefs.GetInt("peopleInTeamOne") > 0)
+            {
+                p.time = 1;
+                PlayerPrefs.SetInt("peopleInTeamOne", PlayerPrefs.GetInt("peopleInTeamOne") - 1);
+            }
+            else p.time = 2;
         }
 
         TimersManager.SetLoopableTimer(this, enemyTimeRate, spawnInimigo);
@@ -121,10 +128,12 @@ public class Game : MonoBehaviour
         if (System.Array.FindAll(time1, x => x.GetComponent<Player>().Hp <= 0).Length == time1.Length)
         {
             winner = 6;
+            isGameOver = true;
         }
         else if (System.Array.FindAll(time2, x => x.GetComponent<Player>().Hp <= 0).Length == time2.Length)
         {
             winner = 5;
+            isGameOver = true;
         }
 
         switch (winner)
